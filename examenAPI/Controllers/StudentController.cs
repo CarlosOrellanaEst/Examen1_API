@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using CursosApi.Data;
-using CursosApi.Models;
-using CursosApi.Dtos.Student;
+using examenAPI.Data;
+using examenAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using examenAPI.Dtos.Student;
 
-namespace CursosApi.Controllers
+namespace examenAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

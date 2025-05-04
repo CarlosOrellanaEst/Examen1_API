@@ -1,5 +1,9 @@
-using CursosApi.Data;
+using examenAPI.Data;
+using examenAPI.Validators;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddFluentValidation(config => 
+    {
+        config.RegisterValidatorsFromAssemblyContaining<CourseUpdateDtoValidator>();
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

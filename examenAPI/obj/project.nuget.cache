@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "eu/IKF0P4/Y=",
+  "dgSpecHash": "V+Y8JBxxpv8=",
   "success": true,
   "projectFilePath": "C:\\Users\\carlos orellana\\Desktop\\Examen Moviles Parte Practica\\Examen1_API\\examenAPI\\examenAPI.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\carlos orellana\\.nuget\\packages\\fluentvalidation\\11.11.0\\fluentvalidation.11.11.0.nupkg.sha512",
+    "C:\\Users\\carlos orellana\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.0\\fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",
+    "C:\\Users\\carlos orellana\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.11.0\\fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512",
     "C:\\Users\\carlos orellana\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\carlos orellana\\.nuget\\packages\\microsoft.aspnetcore.openapi\\8.0.13\\microsoft.aspnetcore.openapi.8.0.13.nupkg.sha512",
     "C:\\Users\\carlos orellana\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\7.0.0\\microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",

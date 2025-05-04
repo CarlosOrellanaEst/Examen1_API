@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using CursosApi.Models;
+using examenAPI.Models;
 
-namespace CursosApi.Data
+namespace examenAPI.Data
 {
     public class AppDbContext : DbContext
     {
@@ -12,7 +12,7 @@ namespace CursosApi.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+    /*
             modelBuilder.Entity<Student>()
                 .HasIndex(s => s.Email)
                 .IsUnique(); // Ensure Email is unique
@@ -20,6 +20,8 @@ namespace CursosApi.Data
             modelBuilder.Entity<Student>()
                 .HasIndex(s => s.Phone)
                 .IsUnique(); // Ensure Phone is unique
+        }
+        */
         }
     }
 }

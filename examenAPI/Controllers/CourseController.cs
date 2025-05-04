@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
-using CursosApi.Data;
-using CursosApi.Models;
-using CursosApi.Dtos.Course;
+using examenAPI.Data;
+using examenAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using examenAPI.Dtos.Course;
+using examenAPI.Validators;
 
-namespace CursosApi.Controllers
+namespace examenAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -91,12 +92,15 @@ namespace CursosApi.Controllers
         }
 
         // PUT: api/Course/5
-        [HttpPut("{id}")]
-        public IActionResult UpdateCourse(int id, [FromBody] CourseUpdateDto dto)
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] CourseUpdateDto dto)
         {
-            var course = _context.Courses.Find(id);
+            var course = await _context.Courses.FirstOrDefaultAsync(c => c.Id == id);
             if (course == null)
+            {
                 return NotFound();
+            }
 
             course.Name = dto.Name ?? course.Name;
             course.Description = dto.Description ?? course.Description;
@@ -104,9 +108,17 @@ namespace CursosApi.Controllers
             course.Schedule = dto.Schedule ?? course.Schedule;
             course.Professor = dto.Professor ?? course.Professor;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok(new CourseReadDto
+            {
+                Id = course.Id,
+                Name = course.Name,
+                Description = course.Description,
+                ImageUrl = course.ImageUrl,
+                Schedule = course.Schedule,
+                Professor = course.Professor
+            });
         }
 
         // DELETE: api/Course/5

@@ -1,4 +1,4 @@
-namespace CursosApi.Dtos.Student
+namespace examenAPI.Dtos.Student
 {
     public class StudentReadDto
     {

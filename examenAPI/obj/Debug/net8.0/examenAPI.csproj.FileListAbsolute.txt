@@ -158,3 +158,6 @@ C:\Users\carlos orellana\Desktop\Examen Moviles Parte Practica\Examen1_API\exame
 C:\Users\carlos orellana\Desktop\Examen Moviles Parte Practica\Examen1_API\examenAPI\obj\Debug\net8.0\examenAPI.pdb
 C:\Users\carlos orellana\Desktop\Examen Moviles Parte Practica\Examen1_API\examenAPI\obj\Debug\net8.0\examenAPI.genruntimeconfig.cache
 C:\Users\carlos orellana\Desktop\Examen Moviles Parte Practica\Examen1_API\examenAPI\obj\Debug\net8.0\ref\examenAPI.dll
+C:\Users\carlos orellana\Desktop\Examen Moviles Parte Practica\Examen1_API\examenAPI\bin\Debug\net8.0\FluentValidation.dll
+C:\Users\carlos orellana\Desktop\Examen Moviles Parte Practica\Examen1_API\examenAPI\bin\Debug\net8.0\FluentValidation.AspNetCore.dll
+C:\Users\carlos orellana\Desktop\Examen Moviles Parte Practica\Examen1_API\examenAPI\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll
