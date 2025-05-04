@@ -8,12 +8,12 @@ namespace examenAPI.Models
         public int Id {get; set;}
 
         [Required]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
-        public string Description { get; set; }
-        public string ImageUrl { get; set; }
-        public string Schedule { get; set; }
-        public string Professor { get; set; }
-        public List<Student> Students { get; set; }
+        public required string Description { get; set; }
+        public required string ImageUrl { get; set; }
+        public required string Schedule { get; set; }
+        public required string Professor { get; set; }
+        public required ICollection<Student> Students { get; set; }
     }
 }

@@ -48,7 +48,8 @@ namespace examenAPI.Controllers
                 Name = dto.Name,
                 Email = dto.Email,
                 Phone = dto.Phone,
-                CourseId = dto.CourseId
+                CourseId = dto.CourseId,
+                Course = _context.Courses.Find(dto.CourseId) ?? throw new InvalidOperationException("Course not found")
             };
 
             _context.Students.Add(student);
@@ -59,6 +60,7 @@ namespace examenAPI.Controllers
                 Id = student.Id,
                 Name = student.Name,
                 Email = student.Email,
+                Phone = student.Phone, // Added missing property initialization
                 CourseName = _context.Courses.Find(dto.CourseId)?.Name
             };
 

@@ -7,9 +7,9 @@ namespace examenAPI.Dtos.Course
         [Required]
         public string Name { get; set; } = string.Empty;
 
-        public string Description { get; set; }
-        public string ImageUrl { get; set; }
-        public string Schedule { get; set; }
-        public string Professor { get; set; }
+        public required string Description { get; set; }
+        public required string ImageUrl { get; set; }
+        public required string Schedule { get; set; }
+        public required string Professor { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using examenAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using examenAPI.Dtos.Course;
 using examenAPI.Validators;
+using examenAPI.Dtos.Student; // Added missing using directive for StudentBasicReadDto
 
 namespace examenAPI.Controllers
 {
@@ -72,7 +73,8 @@ namespace examenAPI.Controllers
                 Description = dto.Description,
                 ImageUrl = dto.ImageUrl,
                 Schedule = dto.Schedule,
-                Professor = dto.Professor
+                Professor = dto.Professor,
+                Students = new List<Student>()
             };
 
             _context.Courses.Add(course);
@@ -133,6 +135,62 @@ namespace examenAPI.Controllers
             _context.SaveChanges();
 
             return NoContent();
+        }
+
+        // GET: api/Course/with-students
+        [HttpGet("with-students")]
+        public async Task<IActionResult> GetCoursesWithStudents()
+        {
+            var courses = await _context.Courses
+                .Include(c => c.Students)
+                .Select(c => new
+                {
+                    c.Id,
+                    c.Name,
+                    c.Description,
+                    c.ImageUrl,
+                    c.Schedule,
+                    c.Professor,
+                    Students = c.Students.Select(s => new StudentBasicReadDto
+                    {
+                        Name = s.Name,
+                        Email = s.Email
+                    }).ToList()
+                })
+                .ToListAsync();
+
+            return Ok(courses);
+        }
+
+        // GET: api/Course/{id}/with-students
+        [HttpGet("{id}/with-students")]
+        public async Task<IActionResult> GetCourseWithStudents([FromRoute] int id)
+        {
+            var course = await _context.Courses
+                .Include(c => c.Students)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (course == null)
+            {
+                return NotFound();
+            }
+
+            var courseWithStudents = new
+            {
+                course.Id,
+                course.Name,
+                course.Description,
+                course.ImageUrl,
+                course.Schedule,
+                course.Professor,
+                Students = course.Students.Select(s => new StudentBasicReadDto
+                {
+                    Name = s.Name,
+                    Email = s.Email
+                }).ToList()
+            };
+
+            return Ok(courseWithStudents);
         }
     }
 }
