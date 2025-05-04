@@ -50,6 +50,12 @@ namespace examenAPI.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Students_Email",
+                table: "Students",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Students_CourseId",
                 table: "Students",
                 column: "CourseId");

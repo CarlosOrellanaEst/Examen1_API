@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace examenAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250504004143_Init")]
-    partial class Init
+    [Migration("20250504053052_AddEmailAndPhoneToStudent")]
+    partial class AddEmailAndPhoneToStudent
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -74,6 +74,12 @@ namespace examenAPI.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Phone")
+                        .IsUnique();
 
                     b.ToTable("Students");
                 });
