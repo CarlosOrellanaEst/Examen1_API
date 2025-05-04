@@ -12,7 +12,7 @@ namespace examenAPI.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-    /*
+
             modelBuilder.Entity<Student>()
                 .HasIndex(s => s.Email)
                 .IsUnique(); // Ensure Email is unique
@@ -20,8 +20,6 @@ namespace examenAPI.Data
             modelBuilder.Entity<Student>()
                 .HasIndex(s => s.Phone)
                 .IsUnique(); // Ensure Phone is unique
-        }
-        */
         }
     }
 }
