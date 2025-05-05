@@ -75,9 +75,9 @@ namespace examenAPI.Controllers
             if (student == null)
                 return NotFound();
 
-            student.Name = dto.Name ?? student.Name;
-            student.Email = dto.Email ?? student.Email;
-            student.Phone = dto.Phone ?? student.Phone;
+            student.Name = string.IsNullOrEmpty(dto.Name) ? student.Name : dto.Name;
+            student.Email = string.IsNullOrEmpty(dto.Email) ? student.Email : dto.Email;
+            student.Phone = string.IsNullOrEmpty(dto.Phone) ? student.Phone : dto.Phone;
             student.CourseId = dto.CourseId != 0 ? dto.CourseId : student.CourseId;
 
             _context.SaveChanges();

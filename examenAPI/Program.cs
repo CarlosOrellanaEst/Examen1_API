@@ -11,17 +11,24 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddControllers()
-    .AddFluentValidation(config => 
-    {
-        config.RegisterValidatorsFromAssemblyContaining<CourseUpdateDtoValidator>();
-    });
+builder.Services.AddControllers();
+
+builder.Services.AddValidatorsFromAssemblyContaining<CourseUpdateDtoValidator>();
+
+builder.Services.AddFluentValidationAutoValidation()
+    .AddFluentValidationClientsideAdapters();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Ensure the 'UploadedImages' directory exists
+var uploadedImagesPath = Path.Combine(Directory.GetCurrentDirectory(), "UploadedImages");
+if (!Directory.Exists(uploadedImagesPath))
+{
+    Directory.CreateDirectory(uploadedImagesPath);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -33,6 +40,14 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "UploadedImages")),
+    RequestPath = "/uploads"
+});
+
 app.Run();
 
 

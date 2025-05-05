@@ -13,6 +13,7 @@ namespace examenAPI.Controllers
     public class CourseController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly string _imagePath = Path.Combine(Directory.GetCurrentDirectory(), "CoursesImages");
 
         public CourseController(AppDbContext context)
         {
@@ -62,23 +63,37 @@ namespace examenAPI.Controllers
 
         // POST: api/Course
         [HttpPost]
-        public ActionResult<CourseReadDto> CreateCourse([FromBody] CourseCreateDto dto)
+        public async Task<IActionResult> CreateCourse([FromForm] CourseCreateDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            if (dto.File == null || dto.File.Length == 0)
+                return BadRequest("No se ha proporcionado una imagen válida.");
 
             var course = new Course
             {
                 Name = dto.Name,
                 Description = dto.Description,
-                ImageUrl = dto.ImageUrl,
                 Schedule = dto.Schedule,
                 Professor = dto.Professor,
-                Students = new List<Student>()
+                Students = new List<Student>(),
+                ImageUrl = string.Empty // Initialize ImageUrl with a default value
             };
 
             _context.Courses.Add(course);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+
+            var fileName = course.Id.ToString() + Path.GetExtension(dto.File.FileName);
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "UploadedImages", fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await dto.File.CopyToAsync(stream);
+            }
+
+            course.ImageUrl = fileName;
+            await _context.SaveChangesAsync();
 
             var courseRead = new CourseReadDto
             {
@@ -96,7 +111,7 @@ namespace examenAPI.Controllers
         // PUT: api/Course/5
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] CourseUpdateDto dto)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromForm] CourseUpdateDto dto)
         {
             var course = await _context.Courses.FirstOrDefaultAsync(c => c.Id == id);
             if (course == null)
@@ -106,9 +121,21 @@ namespace examenAPI.Controllers
 
             course.Name = dto.Name ?? course.Name;
             course.Description = dto.Description ?? course.Description;
-            course.ImageUrl = dto.ImageUrl ?? course.ImageUrl;
             course.Schedule = dto.Schedule ?? course.Schedule;
             course.Professor = dto.Professor ?? course.Professor;
+
+            if (dto.File != null && dto.File.Length > 0)
+            {
+                var fileName = course.Id.ToString() + Path.GetExtension(dto.File.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "UploadedImages", fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await dto.File.CopyToAsync(stream);
+                }
+
+                course.ImageUrl = fileName;
+            }
 
             await _context.SaveChangesAsync();
 
@@ -130,6 +157,16 @@ namespace examenAPI.Controllers
             var course = _context.Courses.Find(id);
             if (course == null)
                 return NotFound();
+
+            // Delete the image file if it exists
+            if (!string.IsNullOrEmpty(course.ImageUrl))
+            {
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "UploadedImages", course.ImageUrl);
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
+            }
 
             _context.Courses.Remove(course);
             _context.SaveChanges();

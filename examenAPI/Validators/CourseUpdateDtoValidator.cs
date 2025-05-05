@@ -13,14 +13,20 @@ namespace examenAPI.Validators
             _context = context;
 
             RuleFor(c => c.Name)
-                .NotEmpty().WithMessage("El nombre es requerido.")
-                .Must((dto, name) => !NameAlreadyExists(RemoveDiacritics(name.ToLower()), dto.Id))
-                .WithMessage("Ya existe un curso con ese nombre.");
+                .NotEmpty().WithMessage("El nombre es obligatorio")
+                .When(c => c.Name != null);
 
-            RuleFor(c => c.Description).NotEmpty();
-            RuleFor(c => c.ImageUrl).NotEmpty();
-            RuleFor(c => c.Schedule).NotEmpty();
-            RuleFor(c => c.Professor).NotEmpty();
+            RuleFor(c => c.Description)
+                .NotEmpty().WithMessage("La descripción es obligatoria")
+                .When(c => c.Description != null);
+
+            RuleFor(c => c.Schedule)
+                .NotEmpty().WithMessage("El horario es obligatorio")
+                .When(c => c.Schedule != null);
+
+            RuleFor(c => c.Professor)
+                .NotEmpty().WithMessage("El profesor es obligatorio")
+                .When(c => c.Professor != null);
         }
 
         private bool NameAlreadyExists(string name, int id)
