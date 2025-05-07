@@ -73,11 +73,11 @@ namespace examenAPI.Controllers
 
             var course = new Course
             {
-                Name = dto.Name,
-                Description = dto.Description,
-                Schedule = dto.Schedule,
-                Professor = dto.Professor,
-                Students = new List<Student>(),
+                Name = dto.Name.Trim(),
+                Description = dto.Description.Trim(),
+                Schedule = dto.Schedule.Trim(),
+                Professor = dto.Professor.Trim(),
+                Students = [],
                 ImageUrl = string.Empty // Initialize ImageUrl with a default value
             };
 
